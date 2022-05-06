@@ -10,9 +10,15 @@ with open('./items.json', 'r', encoding='utf8') as file:
 
 class SERCH(Cog_Extension):
     @commands.command()
-    async def serch(self,ctx,gpu_name):
-        r = get_gpu_data.check()
-        if r :
-            await ctx.send(f"{r}")
+    async def serch(self,ctx,*,gpu_name):
+        with open("./gpu_shop.json","r") as f:
+            gpus = json.load(f)
+        shop = discord.Embed(title = f"查詢結果", color = discord.Color.green())
+        for g in gpus:
+            if not (g["name"].find(gpu_name) == -1):
+                url = g["url"]
+                g_url = f"{g['name']}\n{url}"
+                shop.add_field(name=g_url,value=g["price"],inline=False)
+        await ctx.send(embed = shop)
 def setup(bot):
     bot.add_cog(SERCH(bot))
