@@ -9,11 +9,16 @@ import json
 # sel = soup.select("div.grid-item")
 
 def take_gpus(sel):
+    '''
+    從EVGA官網撈出可購買的顯示卡並回傳list
+    '''
     GPU_shop = []   
     for s in sel:
         if s.select("input.btnAddCart"):
             t = s.select_one("input.btnAddCart")
             p = s.select_one("p.pl-grid-price strong")
+            url = s.select_one("div.pl-grid-pname a")
+            url = 'https://tw.evga.com/' + url["href"]
             t = t["title"].split(',')
             gpu_name = t[0].replace('Add ','')
             gpu_pn = t[1].replace(' ','')
@@ -21,12 +26,17 @@ def take_gpus(sel):
             gpu = {
                 "name" : gpu_name,
                 "pn"   : gpu_pn,
-                "price": price
+                "price": price,
+                "url"  : url
             }
             GPU_shop.append(gpu)
     GPU_shop.sort(key=lambda x: x["price"])
     return GPU_shop
 def check():
+    '''
+    假設有上架或下架，回傳上下架的字串r跟最新的GPU清單;
+    假設沒變，回傳false跟最新的GPU清單。
+    '''
     headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36(KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36"
     }
@@ -62,16 +72,14 @@ def check():
         r = "上架了!!!\n\n"
         for g in on:
             r = r + g["name"] + "\n" + str(g["price"]) + "\n\n"
-        return r
+        return r,gpus #回傳上架的字串r跟最新的GPU清單
     elif len(down):
         r = "下架了QQ\n\n"
         for g in down:
             r = r + g["name"] + "\n" + str(g["price"]) + "\n\n"
-        return r
+        return r,gpus #回傳下架的字串r跟最新的GPU清單
     else:
-        return False #沒變 回傳false
-
-# r = check()
-# if r :
-#     print(r)
-
+        return False,gpus #沒變 回傳false跟最新的GPU清單
+r ,gpus = check()
+if r :
+    print(r)
