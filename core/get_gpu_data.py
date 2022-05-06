@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup 
 import json,requests
+import discord
 # headers = {
 #     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36(KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36"
 # }
@@ -82,17 +83,22 @@ def check():
                 break
         if not e:
             down.append(gpu_old)
+    embed = False
     if len(on):
-        r = "上架了!!!\n\n"
+        embed = discord.Embed(title = f"上架了!!!", color = discord.Color.green())
         for g in on:
-            r = r + g["name"] + "\n" + str(g["price"]) + "\n\n"
-        return r,gpus #回傳上架的字串r跟最新的GPU清單
+            url = g["url"]
+            g_url = f"{g['name']}\n{url}"
+            embed.add_field(name=g_url,value=g["price"],inline=False)  
+        return embed,gpus #回傳上架的字串r跟最新的GPU清單
     elif len(down):
-        r = "下架了QQ\n\n"
+        embed = discord.Embed(title = f"上架了!!!", color = discord.Color.green())
         for g in down:
-            r = r + g["name"] + "\n" + str(g["price"]) + "\n\n"
-        return r,gpus #回傳下架的字串r跟最新的GPU清單
+            url = g["url"]
+            g_url = f"{g['name']}\n{url}"
+            embed.add_field(name=g_url,value=g["price"],inline=False)
+        return embed,gpus #回傳下架的字串r跟最新的GPU清單
     else:
         return False,gpus #沒變 回傳false跟最新的GPU清單
 # r ,gpus = check()
-# print(gpus)
+# print(r)
