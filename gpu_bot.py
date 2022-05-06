@@ -8,7 +8,7 @@ import get_gpu_data
 import time
 with open('./items.json',"r",encoding="utf8") as file:
     data = json.load(file)
-bot = commands.Bot(command_prefix="=")
+bot = commands.Bot(command_prefix="[")
 
 for file in os.listdir("cogs"):
     if file.endswith(".py"):
