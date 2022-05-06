@@ -1,7 +1,7 @@
 from discord.ext import commands
 import discord
 from core.any import Cog_Extension
-import get_gpu_data
+import core.get_gpu_data as get_gpu_data
 api_url = "https://api.jsonstorage.net/v1/json/92ec97f7-ba74-4070-8125-42b68701d1d0/1cbd4ab5-b572-4f60-b787-86b6c5cabe02"
 
 class SHOP(Cog_Extension):

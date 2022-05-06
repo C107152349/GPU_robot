@@ -3,7 +3,7 @@ import discord
 from discord.ext.commands import bot
 from core.any import Cog_Extension
 import json,asyncio,datetime,random
-import get_gpu_data
+import core.get_gpu_data as get_gpu_data
 
 class Task(Cog_Extension):
     def __init__(self,*args,**kwargs):
