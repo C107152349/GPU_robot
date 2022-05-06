@@ -9,7 +9,6 @@ import json,requests
 # sel = soup.select("div.grid-item")
 api_url = "https://api.jsonstorage.net/v1/json/92ec97f7-ba74-4070-8125-42b68701d1d0/1cbd4ab5-b572-4f60-b787-86b6c5cabe02"
 def take_gpus_from_json():
-    api_url = "https://api.jsonstorage.net/v1/json/92ec97f7-ba74-4070-8125-42b68701d1d0/1cbd4ab5-b572-4f60-b787-86b6c5cabe02"
     req = requests.get(api_url,{
         "apiKey":"03d3f3cb-3a83-410c-b254-957ce1d31f9c"
     })
