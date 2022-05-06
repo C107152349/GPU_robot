@@ -1,7 +1,5 @@
-from http.cookiejar import Cookie
 from discord.ext import commands
 import discord
-from discord.ext.commands import bot
 from core.any import Cog_Extension
 import json,requests
 import get_gpu_data
@@ -10,10 +8,7 @@ api_url = "https://api.jsonstorage.net/v1/json/92ec97f7-ba74-4070-8125-42b68701d
 class SERCH(Cog_Extension):
     @commands.command()
     async def serch(self,ctx,*,gpu_name):
-        req = requests.get(api_url,{
-            "apiKey":"03d3f3cb-3a83-410c-b254-957ce1d31f9c"
-        })
-        gpus = req.json()
+        gpus = get_gpu_data.take_gpus_from_json()
         shop = discord.Embed(title = f"查詢結果", color = discord.Color.green())
         e = 0
         for g in gpus:
