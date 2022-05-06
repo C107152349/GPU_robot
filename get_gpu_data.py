@@ -7,6 +7,7 @@ import json
 # r = requests.get("https://tw.evga.com/products/productlist.aspx?type=0",headers=headers) #將此頁面的HTML GET下來
 # soup = BeautifulSoup(r.text,"html.parser")
 # sel = soup.select("div.grid-item")
+api_url = "https://api.jsonstorage.net/v1/json/92ec97f7-ba74-4070-8125-42b68701d1d0/1cbd4ab5-b572-4f60-b787-86b6c5cabe02"
 
 def take_gpus(sel):
     '''
@@ -44,11 +45,20 @@ def check():
     soup = BeautifulSoup(r.text,"html.parser")
     sel = soup.select("div.grid-item")
     gpus = take_gpus(sel)
-
-    with open("./gpu_shop.json","r") as f:
-        gpus_old = json.load(f)
-    with open("./gpu_shop.json","w") as f:
-        json.dump(gpus,f)
+    #讀取儲存舊GPU資料JSON
+    req = requests.get(api_url,{
+        "apiKey":"03d3f3cb-3a83-410c-b254-957ce1d31f9c"
+    })
+    gpus_old = req.json()
+    #將新的GPU資料儲存至JSON
+    requests.put(api_url,
+        params = {"apiKey":"03d3f3cb-3a83-410c-b254-957ce1d31f9c"},
+        json = gpus
+    )
+    # with open("./gpu_shop.json","r") as f:
+    #     gpus_old = json.load(f)
+    # with open("./gpu_shop.json","w") as f:
+    #     json.dump(gpus,f)
     on = []
     down = []
     r = ""
@@ -82,4 +92,4 @@ def check():
         return False,gpus #沒變 回傳false跟最新的GPU清單
 r ,gpus = check()
 if r :
-    print(r)
+    print(gpus)
