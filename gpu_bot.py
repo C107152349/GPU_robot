@@ -14,5 +14,8 @@ for file in os.listdir("cogs"):
 class ON_READY(Cog_Extension):
     @bot.event
     async def on_ready():
+        status_w = discord.Status.online
+        activity_w = discord.Activity(name="正在死盯著EVGA官網")
+        await bot.change_presence(status= status_w, activity=activity_w)
         print("GPU Bot in ready")
 bot.run(data["token"])
