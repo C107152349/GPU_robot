@@ -1,7 +1,9 @@
+import random
 import requests
 from bs4 import BeautifulSoup 
-import json,requests
+import json,requests,random
 import discord
+from fake_useragent import UserAgent
 # headers = {
 #     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36(KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36"
 # }
@@ -49,56 +51,53 @@ def check():
     假設有上架或下架，回傳上下架的字串r跟最新的GPU清單;
     假設沒變，回傳false跟最新的GPU清單。
     '''
-    headers = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36(KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36"
-    }
-    r = requests.get("https://tw.evga.com/products/productlist.aspx?type=0",headers=headers) #將此頁面的HTML GET下來
+    User_Agent = random.choice([
+        "Mozilla/5.0","AppleWebKit/537.36","Safari/537.36","Gecko/20130326"])
+    headers = {"User-Agent":User_Agent}
+    r = requests.get(url="https://tw.evga.com/products/productlist.aspx?type=0",
+                    headers=headers) #將此頁面的HTML GET下來
     soup = BeautifulSoup(r.text,"html.parser")
     sel = soup.select("div.grid-item")
-    gpus = take_gpus_from_EVGA(sel)
-    #讀取儲存舊GPU資料JSON
-    gpus_old = take_gpus_from_json()
-    #將新的GPU資料儲存至JSON
-    put_gpus_to_json(gpus)
-    # with open("./gpu_shop.json","r") as f:
-    #     gpus_old = json.load(f)
-    # with open("./gpu_shop.json","w") as f:
-    #     json.dump(gpus,f)
-    on = []
-    down = []
-    r = ""
-    for gpu in gpus:
-        e = 0
-        for gpu_old in gpus_old:
-            if gpu["pn"] == gpu_old["pn"]:
-                e = 1
-                break
-        if not e:
-            on.append(gpu)
-    for gpu_old in gpus_old:
-        e = 0
+    if r.status_code == requests.codes.ok:
+        gpus = take_gpus_from_EVGA(sel)
+        #讀取儲存舊GPU資料JSON
+        gpus_old = take_gpus_from_json()
+        #將新的GPU資料儲存至JSON
+        put_gpus_to_json(gpus)
+        # with open("./gpu_shop.json","r") as f:
+        #     gpus_old = json.load(f)
+        # with open("./gpu_shop.json","w") as f:
+        #     json.dump(gpus,f)
+        on = []
+        down = []
+        r = ""
         for gpu in gpus:
-            if gpu_old["pn"] == gpu["pn"]:
-                e = 1
-                break
-        if not e:
-            down.append(gpu_old)
-    embed = False
-    if len(on):
-        embed = discord.Embed(title = f"上架了!!!", color = discord.Color.green())
-        for g in on:
-            url = g["url"]
-            g_url = f"{g['name']}\n{url}"
-            embed.add_field(name=g_url,value=g["price"],inline=False)  
-        return embed,gpus #回傳上架的字串r跟最新的GPU清單
-    elif len(down):
-        embed = discord.Embed(title = f"上架了!!!", color = discord.Color.green())
-        for g in down:
-            url = g["url"]
-            g_url = f"{g['name']}\n{url}"
-            embed.add_field(name=g_url,value=g["price"],inline=False)
-        return embed,gpus #回傳下架的字串r跟最新的GPU清單
+            e = 0
+            for gpu_old in gpus_old:
+                if gpu["pn"] == gpu_old["pn"]:
+                    e = 1
+                    break
+            if not e:
+                on.append(gpu)
+        for gpu_old in gpus_old:
+            e = 0
+            for gpu in gpus:
+                if gpu_old["pn"] == gpu["pn"]:
+                    e = 1
+                    break
+            if not e:
+                down.append(gpu_old)
+        if len(on):
+            return "on",on,gpus #回傳上架的字串跟最新的GPU清單
+        elif len(down):
+            return "down",down,gpus #回傳下架的字串跟最新的GPU清單
+        else:
+            print("nothing")
+            return "nothing",[],gpus #沒變 回傳false跟最新的GPU清單
     else:
-        return False,gpus #沒變 回傳false跟最新的GPU清單
-# r ,gpus = check()
-# print(r)
+        print(f'Page Error : {r.status_code}')
+        return False,[],[]
+r,e,gpus = check()
+if r:
+    print(r)
+    print(e)
