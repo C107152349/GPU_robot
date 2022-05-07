@@ -14,7 +14,7 @@ class Task(Cog_Extension):
             await self.bot.wait_until_ready()
             self.channel = self.bot.get_channel(971127322235260978)
             while not self.bot.is_closed():
-                r,gpus = get_gpu_data.check()
+                r,r_gpus,gpus = get_gpu_data.check()
                 delay = await random.choice(rand_wait)
                 if r == "on":
                     for g in gpus:

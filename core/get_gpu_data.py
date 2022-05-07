@@ -4,22 +4,24 @@ from bs4 import BeautifulSoup
 import json,requests,random
 import discord
 from fake_useragent import UserAgent
+from ende import decode
+from get_api import get_api
 # headers = {
 #     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36(KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36"
 # }
 # r = requests.get("https://tw.evga.com/products/productlist.aspx?type=0",headers=headers) #將此頁面的HTML GET下來
 # soup = BeautifulSoup(r.text,"html.parser")
 # sel = soup.select("div.grid-item")
-api_url = "https://api.jsonstorage.net/v1/json/92ec97f7-ba74-4070-8125-42b68701d1d0/1cbd4ab5-b572-4f60-b787-86b6c5cabe02"
 def take_gpus_from_json():
-    req = requests.get(api_url,{
-        "apiKey":"03d3f3cb-3a83-410c-b254-957ce1d31f9c"
-    })
+    gpus_url = get_api("gpu_url")
+    req = requests.get(gpus_url)
     gpus = req.json()
     return gpus
 def put_gpus_to_json(gpus):
-    requests.put(api_url,
-        params = {"apiKey":"03d3f3cb-3a83-410c-b254-957ce1d31f9c"},
+    apikey = decode(get_api("apikey"))
+    gpus_url = get_api("gpu_url")
+    requests.put(gpus_url,
+        params = {"apiKey":apikey},
         json = gpus
     )
 def take_gpus_from_EVGA(sel):
@@ -97,7 +99,6 @@ def check():
     else:
         print(f'Page Error : {r.status_code}')
         return False,[],[]
-r,e,gpus = check()
-if r:
-    print(r)
-    print(e)
+# r,e,gpus = check()
+# if r:
+#     print(gpus)
