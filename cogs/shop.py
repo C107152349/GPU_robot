@@ -13,6 +13,7 @@ class SHOP(Cog_Extension):
             url = g["url"]
             g_url = f"{g['name']}\n{url}"
             shop.add_field(name=g_url,value=g["price"],inline=False)
+        await ctx.message.delete()
         await ctx.send(embed = shop)
 def setup(bot):
     bot.add_cog(SHOP(bot))

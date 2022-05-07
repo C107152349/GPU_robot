@@ -3,8 +3,6 @@ from discord.ext import commands
 from core.any import Cog_Extension
 import json, os
 
-with open('./items.json', 'r', encoding='utf8') as file:
-   data = json.load(file)
 
 class reloadCogs(Cog_Extension):
     @commands.command()
