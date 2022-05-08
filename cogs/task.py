@@ -1,4 +1,5 @@
 import discord
+from discord.ext.commands import bot
 from core.any import Cog_Extension
 import asyncio,random
 import core.get_gpu_data as get_gpu_data
@@ -28,6 +29,10 @@ class Task(Cog_Extension):
                     embed = discord.Embed(title = f"下架了QQ", color = discord.Color.red())
                     embed.add_field(name=g_url,value=g["price"],inline=False)
                     await self.channel.send(embed=embed)
+                # elif not r:
+                #     status_w = discord.Status.online
+                #     activity_w = discord.Activity(type=discord.ActivityType.watching,name="EVGA的官網")
+                #     await bot.change_presence(status= status_w, activity=activity_w)        
                 await asyncio.sleep(delay)
         self.bg_task = self.bot.loop.create_task(interval())
 def setup(bot):
