@@ -1,13 +1,13 @@
 from discord.ext import commands
 import discord
 from core.any import Cog_Extension
-import json,requests,re
+import re
 import core.get_gpu_data as get_gpu_data
 api_url = "https://api.jsonstorage.net/v1/json/92ec97f7-ba74-4070-8125-42b68701d1d0/1cbd4ab5-b572-4f60-b787-86b6c5cabe02"
 
-class SERCH(Cog_Extension):
+class SEARCH(Cog_Extension):
     @commands.command()
-    async def serch(self,ctx,*,gpu_name):
+    async def search(self,ctx,*,gpu_name):
         gpus = get_gpu_data.take_gpus_from_json()
         shop = discord.Embed(title = f"查詢結果", color = discord.Color.green())
         en_letter = '[\u0041-\u005a|\u0061-\u007a]+' # 大小寫英文字母
@@ -28,7 +28,6 @@ class SERCH(Cog_Extension):
                 shop.add_field(name=g_url,value=g["price"],inline=False)
         if not c > 0:
             shop.add_field(name=f"沒有可以買的{gpu_name}",value="QQ",inline=False)
-        await ctx.message.delete()
         await ctx.send(embed = shop)
 def setup(bot):
-    bot.add_cog(SERCH(bot))
+    bot.add_cog(SEARCH(bot))
