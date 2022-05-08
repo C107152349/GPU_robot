@@ -12,7 +12,6 @@ class Cmds(Cog_Extension):
         embed.add_field(name="shop", value="輸入:[shop 顯示EVGA官網可購買的顯示卡", inline=False)
         embed.add_field(name="search", value="輸入:[search 關鍵字 顯示可購買並符合關鍵字的顯示卡 記得[serch跟關鍵字中間有個空白鍵", inline=False)
         embed.set_footer(text="當有顯示卡上架或下架時會於[gpu-test]頻道主動通知")
-        await ctx.message.delete()
         await ctx.author.send(embed=embed)
 def setup(bot):
     bot.add_cog(Cmds(bot))

@@ -1,12 +1,6 @@
 from discord.ext import commands
-import discord
-from discord.ext.commands import bot
-from requests import request
 import requests
-from core.any import Cog_Extension
-from core.any import decode
-from core.any import get_api
-import json
+from core.any import Cog_Extension,decode,get_api
 
 class Subs(Cog_Extension):
     @commands.command()

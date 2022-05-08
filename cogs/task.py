@@ -1,8 +1,6 @@
-from discord.ext import commands
 import discord
-from discord.ext.commands import bot
 from core.any import Cog_Extension
-import json,asyncio,datetime,random
+import asyncio,random
 import core.get_gpu_data as get_gpu_data
 
 class Task(Cog_Extension):
