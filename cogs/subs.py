@@ -4,8 +4,8 @@ from discord.ext.commands import bot
 from requests import request
 import requests
 from core.any import Cog_Extension
-from core.ende import decode
-from core.get_api import get_api
+from core.any import decode
+from core.any import get_api
 import json
 
 class Subs(Cog_Extension):

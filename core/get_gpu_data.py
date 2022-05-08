@@ -3,9 +3,7 @@ import requests
 from bs4 import BeautifulSoup 
 import json,requests,random
 import discord
-from fake_useragent import UserAgent
-from ende import decode
-from get_api import get_api
+from core.any import decode,get_api
 # headers = {
 #     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36(KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36"
 # }

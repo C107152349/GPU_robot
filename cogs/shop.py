@@ -1,12 +1,12 @@
 from discord.ext import commands
 import discord
 from core.any import Cog_Extension
-import core.get_gpu_data as get_gpu_data
+from core.get_gpu_data import take_gpus_from_json
 
 class SHOP(Cog_Extension):
     @commands.command()
     async def shop(self,ctx):
-        gpus = get_gpu_data.take_gpus_from_json()
+        gpus = take_gpus_from_json()
         shop = discord.Embed(title = f"EVGA官網可購買的顯卡", color = discord.Color.red())
         for g in gpus:
             url = g["url"]
