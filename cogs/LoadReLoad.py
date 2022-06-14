@@ -3,7 +3,6 @@ from discord.ext import commands
 from core.any import Cog_Extension
 import json, os
 
-
 class reloadCogs(Cog_Extension):
     @commands.command()
     @commands.is_owner() # 管理者才能使用
