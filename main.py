@@ -19,7 +19,6 @@ class ON_READY(Cog_Extension):
       activity_w = discord.Activity(type=discord.ActivityType.watching,name="EVGA的官網",)
       await bot.change_presence(status= status_w, activity=activity_w)
       print("GPU Bot in ready")
-keep_alive.keep_alive()
 try:
     bot.run(data["token"])
 except:
