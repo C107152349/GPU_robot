@@ -1,8 +1,6 @@
 from discord.ext import commands
-import discord,os
-from discord.ext.commands import bot
+import os,requests
 from core.any import Cog_Extension
-import json,requests
 
 class Send_dm(Cog_Extension):
     @commands.command()

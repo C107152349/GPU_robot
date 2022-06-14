@@ -1,6 +1,6 @@
 from discord.ext import commands
 import requests,os
-from core.any import Cog_Extension,decode,get_api
+from core.any import Cog_Extension
 
 class Subs(Cog_Extension):
     @commands.command()

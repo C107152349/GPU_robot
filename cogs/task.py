@@ -1,9 +1,8 @@
 import discord,os
 from core.any import Cog_Extension,get_valid_ips,update_proxy_ips
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import asyncio,random,requests
 import core.get_gpu_data as get_gpu_data
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 class Task(Cog_Extension):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
@@ -44,7 +43,7 @@ class Task(Cog_Extension):
                   print("proxy ip list: ",valid_ips)
                   print("What proxy ip I use: ",proxy_ip)
                   #respose = requests.get(url=url,headers=headers)
-                  respose = requests.get(url=url,headers=headers,proxies={'http':proxy_ip,'https':proxy_ip},timeout=30,verify=False)
+                  respose = requests.get(url=url,headers=headers,proxies={'http':proxy_ip,'https':proxy_ip},timeout=30)
                   print(respose)
                   r,r_gpus,gpus,time_str = get_gpu_data.check(respose)
                   delay = 110 + random.randint(-10,10)
